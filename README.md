@@ -1,4 +1,11 @@
-# Getting Started with Create React App
+# Учебный проект по изучению React. Справочник Marvel.
+
+## Про проект
+
+Проект представляет из себя приложение-справочник по героям Marvel. Информаия о героях взята из открытого API [Marvel](https://developer.marvel.com). Проект придуман не самостоятельно, а тщательно копируется с курса на [Udemy](https://www.udemy.com/share/101WCC3@9MQWn0caX8iOr9Qy99Af9AVFBSWVqqFkh6dXkrETAG-Vgd0RSirmtqQzGeBqe5gpCw==/) (конечноже в только в рамках изучения).
+Ниже будет всякая информация из **Create React App**.
+
+---
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
