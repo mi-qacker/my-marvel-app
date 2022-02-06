@@ -36,7 +36,11 @@ class CharList extends Component {
 
 	renderList = () => {
 		const items = this.state.chars.map((char) => (
-			<CharListItem key={char.id} char={char} />
+			<CharListItem
+				key={char.id}
+				onCharSelected={() => this.props.onCharSelected(char.id)}
+				char={char}
+			/>
 		));
 		return <ul className="char__grid">{items}</ul>;
 	};

@@ -91,7 +91,7 @@ const View = ({ char }) => {
 	}
 	const imgStyle = thumbnail.includes('image_not_available')
 		? { objectFit: 'contain' }
-		: null;
+		: { objectFit: 'cover' };
 	return (
 		<div className="randomchar__block">
 			<img
