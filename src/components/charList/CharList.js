@@ -5,7 +5,6 @@ import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 
 import MarvelService from '../../services/MarvelService';
-import CharListItem from '../charListItem/CharListItem';
 
 import './charList.scss';
 
@@ -19,6 +18,7 @@ class CharList extends Component {
 		charEnded: false,
 	};
 	marvelService = new MarvelService();
+	itemRefs = [];
 
 	componentDidMount() {
 		this.onRequest();
@@ -60,14 +60,46 @@ class CharList extends Component {
 		});
 	};
 
+	setRef = (ref) => {
+		this.itemRefs.push(ref);
+	};
+
+	focusOnItem = (id) => {
+		this.itemRefs.forEach((item) =>
+			item.classList.remove('char__item_selected')
+		);
+		this.itemRefs[id].classList.add('char__item_selected');
+		this.itemRefs[id].focus();
+	};
+
 	renderList = () => {
-		const items = this.state.chars.map((char) => (
-			<CharListItem
-				key={char.id}
-				onCharSelected={() => this.props.onCharSelected(char.id)}
-				char={char}
-			/>
-		));
+		const items = this.state.chars.map((char, i) => {
+			const { name, thumbnail } = char;
+			const imgStyle = thumbnail.includes('image_not_available')
+				? { objectFit: 'contain' }
+				: { objectFit: 'cover' };
+			return (
+				<li
+					key={char.id}
+					className="char__item"
+					tabIndex={0}
+					ref={this.setRef}
+					onClick={() => {
+						this.props.onCharSelected(char.id);
+						this.focusOnItem(i);
+					}}
+					onKeyPress={(e) => {
+						if (e.key === ' ' || e.key === 'Enter') {
+							this.props.onCharSelected(char.id);
+							this.focusOnItem(i);
+						}
+					}}
+				>
+					<img src={thumbnail} alt="thumbnail" style={imgStyle} />
+					<div className="char__name">{name}</div>
+				</li>
+			);
+		});
 		return <ul className="char__grid">{items}</ul>;
 	};
 
@@ -96,7 +128,7 @@ class CharList extends Component {
 }
 
 CharList.propTypes = {
-	onCharSelected: PropTypes.func,
+	onCharSelected: PropTypes.func.isRequired,
 };
 
 export default CharList;
