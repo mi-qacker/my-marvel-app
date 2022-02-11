@@ -11,7 +11,7 @@ const ErrorMessage = () => {
 				margin: '0 auto',
 			}}
 			src={img}
-			alt="Error Messare"
+			alt="Error Message"
 		/>
 	);
 };

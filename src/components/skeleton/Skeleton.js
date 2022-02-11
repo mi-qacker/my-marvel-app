@@ -8,12 +8,12 @@ const Skeleton = () => {
 			</p>
 			<div className="skeleton">
 				<div className="pulse skeleton__header">
-					<div className="pulse skeleton__circle"></div>
-					<div className="pulse skeleton__mini"></div>
+					<div className="pulse skeleton__circle" />
+					<div className="pulse skeleton__mini" />
 				</div>
-				<div className="pulse skeleton__block"></div>
-				<div className="pulse skeleton__block"></div>
-				<div className="pulse skeleton__block"></div>
+				<div className="pulse skeleton__block" />
+				<div className="pulse skeleton__block" />
+				<div className="pulse skeleton__block" />
 			</div>
 		</>
 	);
