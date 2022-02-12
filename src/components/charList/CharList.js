@@ -4,34 +4,25 @@ import PropTypes from 'prop-types';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 
-import MarvelService from '../../services/MarvelService';
+import useMarvelService from '../../services/MarvelService';
 
 import './charList.scss';
 
 const CharList = (props) => {
 	const [chars, setChars] = useState([]);
-	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState(false);
 	const [newItemLoading, setNewItemLoading] = useState(false);
 	const [offset, setOffset] = useState(210);
 	const [charEnded, setCharEnded] = useState(false);
 
-	const marvelService = new MarvelService();
+	const { loading, error, getAllCharacters } = useMarvelService();
 
 	useEffect(() => {
-		onRequest();
+		onRequest(offset, true);
 	}, []);
 
-	const onRequest = (offset) => {
-		onCharListLoading();
-		marvelService
-			.getAllCharacters(offset)
-			.then(onCharListLoaded)
-			.catch(onError);
-	};
-
-	const onCharListLoading = () => {
-		setNewItemLoading(true);
+	const onRequest = (offset, initial) => {
+		initial ? setNewItemLoading(false) : setNewItemLoading(true);
+		getAllCharacters(offset).then(onCharListLoaded);
 	};
 
 	const onCharListLoaded = (newChars) => {
@@ -40,16 +31,9 @@ const CharList = (props) => {
 			ended = true;
 		}
 		setChars((charList) => [...charList, ...newChars]);
-		setLoading(false);
-		setError(false);
 		setNewItemLoading(false);
 		setOffset((offset) => offset + newChars.length);
 		setCharEnded(ended);
-	};
-
-	const onError = () => {
-		setError(true);
-		setLoading(false);
 	};
 
 	const itemRefs = useRef([]);
@@ -93,14 +77,13 @@ const CharList = (props) => {
 		return <ul className="char__grid">{items}</ul>;
 	};
 
-	const spinner = loading ? <Spinner /> : null;
+	const spinner = loading && !newItemLoading ? <Spinner /> : null;
 	const errorMessage = error ? <ErrorMessage /> : null;
-	const content = !(errorMessage || loading) ? renderList() : null;
 	return (
 		<div className="char__list">
 			{errorMessage}
 			{spinner}
-			{content}
+			{renderList()}
 			<button
 				className="button button__main button__long"
 				disabled={newItemLoading}
