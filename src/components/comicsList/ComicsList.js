@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import useMarvelService from '../../services/MarvelService';
 import './comicsList.scss';
@@ -31,14 +32,14 @@ const ComicsList = () => {
 
 	const renderList = () => {
 		const items = comics.map((book, i) => {
-			const { title, price, thumbnail } = book;
+			const { id, title, price, thumbnail } = book;
 			const bookPrice = price !== 0 ? `${price}$` : 'NOT AVAILABLE';
 			const imgStyle = thumbnail.includes('image_not_available')
 				? { objectFit: 'contain' }
 				: { objectFit: 'cover' };
 			return (
 				<li key={i} className="comics__item">
-					<a href="#">
+					<Link to={`${id}`}>
 						<img
 							src={thumbnail}
 							alt={title}
@@ -47,7 +48,7 @@ const ComicsList = () => {
 						/>
 						<div className="comics__item-name">{title}</div>
 						<div className="comics__item-price">{bookPrice}</div>
-					</a>
+					</Link>
 				</li>
 			);
 		});
