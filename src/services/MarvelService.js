@@ -44,12 +44,21 @@ const useMarvelService = () => {
 	};
 
 	const _transformComics = (comic) => {
-		const { id, title, prices, thumbnail, description, pageCount } = comic;
+		const {
+			id,
+			title,
+			prices,
+			thumbnail,
+			description,
+			pageCount,
+			textObjects,
+		} = comic;
 		return {
 			id,
 			title,
 			description,
 			pageCount,
+			language: textObjects.length > 0 ? textObjects[0].language : null,
 			price: prices[0].price,
 			thumbnail: `${thumbnail.path}.${thumbnail.extension}`,
 		};

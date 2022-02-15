@@ -5,7 +5,7 @@ import { MainPage, ComicsPage, NotFoundPage, SingleComicPage } from '../pages';
 
 const App = () => {
 	return (
-		<Router basename="my-marvel-app">
+		<Router>
 			<div className="app">
 				<AppHeader />
 				<main>

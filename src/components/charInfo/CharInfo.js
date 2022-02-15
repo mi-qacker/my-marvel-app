@@ -8,6 +8,7 @@ import ErrorMessage from '../errorMessage/ErrorMessage';
 import Skeleton from '../skeleton/Skeleton';
 
 import './charInfo.scss';
+import { Link } from 'react-router-dom';
 
 const CharInfo = (props) => {
 	const [char, setChar] = useState(null);
@@ -76,11 +77,18 @@ const View = ({ char }) => {
 			<ul className="char__comics-list">
 				{comics.length > 0 ? null : '[COMICS NOT FOUND]'}
 				{comics
-					.map((c, i) => (
-						<li className="char__comics-item" key={i}>
-							{c.name}
-						</li>
-					))
+					.map((c, i) => {
+						const linkArr = c.resourceURI.split('/');
+						return (
+							<Link
+								to={`/comics/${linkArr[linkArr.length - 1]}`}
+								className="char__comics-item"
+								key={i}
+							>
+								{c.name}
+							</Link>
+						);
+					})
 					.slice(0, 10)}
 			</ul>
 		</>
