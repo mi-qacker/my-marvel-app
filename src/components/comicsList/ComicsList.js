@@ -4,6 +4,7 @@ import useMarvelService from '../../services/MarvelService';
 import './comicsList.scss';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Spinner from '../spinner/Spinner';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 const ComicsList = () => {
 	const [comics, setComics] = useState([]);
@@ -52,7 +53,20 @@ const ComicsList = () => {
 				</li>
 			);
 		});
-		return <ul className="comics__grid">{items}</ul>;
+		return (
+			<ul className="comics__grid">
+				<TransitionGroup component={null}>
+					{items.map((elem, i) => (
+						<CSSTransition
+							key={i}
+							timeout={300}
+							classNames="comics__item">
+							{elem}
+						</CSSTransition>
+					))}
+				</TransitionGroup>
+			</ul>
+		);
 	};
 	const errorMessage = error ? <ErrorMessage /> : null;
 	const spinner = loading && !newComicsLoading ? <Spinner /> : null;
@@ -65,8 +79,7 @@ const ComicsList = () => {
 				className="button button__main button__long"
 				onClick={() => onRequest(false)}
 				style={{ display: comicsEnded ? 'none' : 'block' }}
-				disabled={newComicsLoading}
-			>
+				disabled={newComicsLoading}>
 				<div className="inner">load more</div>
 			</button>
 		</div>

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
@@ -65,14 +66,26 @@ const CharList = (props) => {
 							props.onCharSelected(char.id);
 							focusOnItem(i);
 						}
-					}}
-				>
+					}}>
 					<img src={thumbnail} alt="thumbnail" style={imgStyle} />
 					<div className="char__name">{name}</div>
 				</li>
 			);
 		});
-		return <ul className="char__grid">{items}</ul>;
+		return (
+			<ul className="char__grid">
+				<TransitionGroup component={null}>
+					{items.map((elem, i) => (
+						<CSSTransition
+							key={i}
+							timeout={300}
+							classNames="char__item">
+							{elem}
+						</CSSTransition>
+					))}
+				</TransitionGroup>
+			</ul>
+		);
 	};
 
 	const spinner = loading && !newItemLoading ? <Spinner /> : null;
@@ -86,8 +99,7 @@ const CharList = (props) => {
 				className="button button__main button__long"
 				disabled={newItemLoading}
 				style={{ display: charEnded ? 'none' : 'block' }}
-				onClick={() => onRequest(false)}
-			>
+				onClick={() => onRequest(false)}>
 				<div className="inner">load more</div>
 			</button>
 		</div>
