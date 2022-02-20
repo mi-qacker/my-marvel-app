@@ -1,12 +1,17 @@
-import { lazy, Suspense } from 'react';
+import { Suspense } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import AppHeader from '../appHeader/AppHeader';
 import Spinner from '../spinner/Spinner';
+import MainPage from '../pages/mainPage/MainPage';
+import ComicsPage from '../pages/comicsPage/ComicsPage';
+import SingleComicPage from '../pages/singleComicPage/SingleComicPage';
+import SingleCharPage from '../pages/singleCharPage/SingleCharPage';
+import NotFoundPage from '../pages/notFoundPage/NotFoundPage';
 
-const NotFoundPage = lazy(() => import('../pages/notFoundPage/NotFoundPage'));
-const MainPage = lazy(() => import('../pages/mainPage/MainPage'));
-const ComicsPage = lazy(() => import('../pages/comicsPage/ComicsPage'));
+// const NotFoundPage = lazy(() => import('../pages/notFoundPage/NotFoundPage'));
+// const MainPage = lazy(() => import('../pages/mainPage/MainPage'));
+// const ComicsPage = lazy(() => import('../pages/comicsPage/ComicsPage'));
 // const SingleComicPage = lazy(() =>
 // 	import('../pages/singleComicPage/SingleComicPage')
 // );
@@ -24,14 +29,14 @@ const App = () => {
 						<Routes>
 							<Route path="/" element={<MainPage />} />
 							<Route path="/comics" element={<ComicsPage />} />
-							{/*<Route
+							<Route
 								path="/comics/:id"
 								element={<SingleComicPage />}
-							/>*/}
-							{/*<Route
+							/>
+							<Route
 								path="/chars/:id"
 								element={<SingleCharPage />}
-							/>*/}
+							/>
 							<Route path="*" element={<NotFoundPage />} />
 						</Routes>
 					</Suspense>
