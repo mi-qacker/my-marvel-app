@@ -3,11 +3,14 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import AppHeader from '../appHeader/AppHeader';
 import Spinner from '../spinner/Spinner';
+import SingleCharPage from '../pages/singleCharPage/SingleCharPage';
 
-const NotFoundPage = lazy(() => import('../pages/notFoundPage'));
-const MainPage = lazy(() => import('../pages/mainPage'));
-const ComicsPage = lazy(() => import('../pages/comicsPage'));
-const SingleComicPage = lazy(() => import('../pages/singleComicPage'));
+const NotFoundPage = lazy(() => import('../pages/notFoundPage/NotFoundPage'));
+const MainPage = lazy(() => import('../pages/mainPage/MainPage'));
+const ComicsPage = lazy(() => import('../pages/comicsPage/ComicsPage'));
+const SingleComicPage = lazy(() =>
+	import('../pages/singleComicPage/SingleComicPage')
+);
 
 const App = () => {
 	return (
@@ -22,6 +25,10 @@ const App = () => {
 							<Route
 								path="/comics/:id"
 								element={<SingleComicPage />}
+							/>
+							<Route
+								path="/chars/:id"
+								element={<SingleCharPage />}
 							/>
 							<Route path="*" element={<NotFoundPage />} />
 						</Routes>

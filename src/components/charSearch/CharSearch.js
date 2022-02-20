@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import './charSearch.scss';
 import useMarvelService from '../../services/MarvelService';
+import { Link } from 'react-router-dom';
 
 const CharSearch = () => {
 	const [char, setChar] = useState(null);
@@ -52,9 +53,11 @@ const CharSearch = () => {
 					<div className="success">
 						There is! Visit {char[0].name} page?
 					</div>
-					<a className="button button__secondary">
+					<Link
+						to={`/chars/${char[0].id}`}
+						className="button button__secondary">
 						<div className="inner">to page</div>
-					</a>
+					</Link>
 				</div>
 			) : null}
 		</div>
