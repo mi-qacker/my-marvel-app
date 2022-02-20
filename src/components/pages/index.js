@@ -1,6 +1,6 @@
-import MainPage from './MainPage/MainPage';
-import ComicsPage from './ComicsPage/ComicsPage';
-import SingleComicPage from './SingleComicPage/SingleComicPage';
-import NotFoundPage from './NotFoundPage/NotFoundPage';
+import MainPage from './mainPage/MainPage';
+import ComicsPage from './comicsPage/ComicsPage';
+import SingleComicPage from './singleComicPage/SingleComicPage';
+import NotFoundPage from './notFoundPage/NotFoundPage';
 
 export { MainPage, ComicsPage, NotFoundPage, SingleComicPage };
