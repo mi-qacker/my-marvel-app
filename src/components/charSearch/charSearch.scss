@@ -16,7 +16,6 @@
 
     &_result {
       margin-top: 15px;
-      font-weight: bold;
       font-size: 18px;
       line-height: 21px;
 
@@ -24,11 +23,13 @@
         display: inline-block;
         margin-right: 24px;
         width: 250px;
+        font-weight: bold;
         color: #03710E;
       }
 
       .error {
         color: #9F0013;
+        font-weight: bold;
       }
     }
   }
