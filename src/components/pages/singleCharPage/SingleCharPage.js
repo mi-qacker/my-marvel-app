@@ -6,6 +6,7 @@ import Spinner from '../../spinner/Spinner';
 import ErrorMessage from '../../errorMessage/ErrorMessage';
 
 import './singleChar.scss';
+import { Helmet } from 'react-helmet';
 
 const SingleCharPage = () => {
 	const [char, setChar] = useState(null);
@@ -31,6 +32,10 @@ const SingleCharPage = () => {
 const View = ({ char }) => {
 	return (
 		<div className="single-char">
+			<Helmet>
+				<meta name="description" content={`${char.name} page`} />
+				<title>{char.name}</title>
+			</Helmet>
 			<div>
 				<img src={char.thumbnail} alt={char.name} />
 				<div className="single-char__btns">
