@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import useMarvelService from '../../../services/MarvelService';
 import AppBanner from '../../appBanner/AppBanner';
 import Spinner from '../../spinner/Spinner';
 import ErrorMessage from '../../errorMessage/ErrorMessage';
+
+import './singleChar.scss';
 
 const SingleCharPage = () => {
 	const [char, setChar] = useState(null);
@@ -28,10 +30,30 @@ const SingleCharPage = () => {
 
 const View = ({ char }) => {
 	return (
-		<>
-			<h1>{char.name}</h1>
-			<img src={char.thumbnail} alt={char.name} />
-		</>
+		<div className="single-char">
+			<div>
+				<img src={char.thumbnail} alt={char.name} />
+				<div className="single-char__btns">
+					<a href={char.homepage} className="button button__main">
+						<div className="inner">homepage</div>
+					</a>
+					<a href={char.wiki} className="button button__secondary">
+						<div className="inner">Wiki</div>
+					</a>
+				</div>
+			</div>
+			<div className="single-char__info">
+				<h2>{char.name}</h2>
+				<p>
+					{char.description
+						? char.description
+						: 'DESCRIPTION NOT FOUND'}
+				</p>
+			</div>
+			<Link to="/" className="single-char__back">
+				Back to all
+			</Link>
+		</div>
 	);
 };
 
