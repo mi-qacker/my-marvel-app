@@ -1,0 +1,46 @@
+@import "../../style/variables.scss";
+
+.char {
+  &__search {
+    margin-top: 30px;
+    padding: 25px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+    background: #FFFFFF;
+
+    &_title {
+      padding-bottom: 15px;
+      font-weight: bold;
+      font-size: 18px;
+      line-height: 21px;
+    }
+
+    &_result {
+      margin-top: 15px;
+      font-weight: bold;
+      font-size: 18px;
+      line-height: 21px;
+
+      .success {
+        display: inline-block;
+        margin-right: 24px;
+        width: 250px;
+        color: #03710E;
+      }
+
+      .error {
+        color: #9F0013;
+      }
+    }
+  }
+
+  &__input {
+    width: 250px;
+    height: 38px;
+    padding: 10px;
+    background: #FFFFFF;
+    border: none;
+    outline: none;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    margin-right: 24px;
+  }
+}
