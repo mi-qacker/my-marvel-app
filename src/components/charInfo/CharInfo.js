@@ -1,11 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import useMarvelService from '../../services/MarvelService';
-
-import Spinner from '../spinner/Spinner';
-import ErrorMessage from '../errorMessage/ErrorMessage';
-import Skeleton from '../skeleton/Skeleton';
+import setContent from '../../utils/setContent';
 
 import './charInfo.scss';
 import { Link } from 'react-router-dom';
@@ -13,7 +10,8 @@ import { Link } from 'react-router-dom';
 const CharInfo = (props) => {
 	const [char, setChar] = useState(null);
 
-	const { loading, error, getCharacterById, clearError } = useMarvelService();
+	const { getCharacterById, clearError, process, setProcess } =
+		useMarvelService();
 
 	useEffect(() => {
 		updateChar();
@@ -29,29 +27,20 @@ const CharInfo = (props) => {
 			return;
 		}
 		clearError();
-		getCharacterById(charId).then(onCharLoaded);
+		getCharacterById(charId)
+			.then(onCharLoaded)
+			.then(() => setProcess('success'));
 	};
 
 	const onCharLoaded = (char) => {
 		setChar(char);
 	};
-
-	const skeleton = char || loading || error ? null : <Skeleton />;
-	const spinner = loading ? <Spinner /> : null;
-	const errorMessage = error ? <ErrorMessage /> : null;
-	const content = !(loading || error || !char) ? <View char={char} /> : null;
-	return (
-		<div className="char__info">
-			{spinner}
-			{skeleton}
-			{errorMessage}
-			{content}
-		</div>
-	);
+	const content = useMemo(setContent(process, View, char), [process]);
+	return <div className="char__info">{content}</div>;
 };
 
-const View = ({ char }) => {
-	const { name, description, thumbnail, homepage, wiki, comics } = char;
+const View = ({ data }) => {
+	const { name, description, thumbnail, homepage, wiki, comics } = data;
 	const desc = description ? description : '[NOT FOUND]';
 	const imgStyle = thumbnail.includes('image_not_available')
 		? { objectFit: 'contain' }
@@ -83,8 +72,7 @@ const View = ({ char }) => {
 							<Link
 								to={`/comics/${linkArr[linkArr.length - 1]}`}
 								className="char__comics-item"
-								key={i}
-							>
+								key={i}>
 								{c.name}
 							</Link>
 						);

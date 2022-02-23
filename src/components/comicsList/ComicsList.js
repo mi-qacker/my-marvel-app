@@ -1,17 +1,16 @@
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import useMarvelService from '../../services/MarvelService';
+import setContentList from '../../utils/setContentList';
 import './comicsList.scss';
-import ErrorMessage from '../errorMessage/ErrorMessage';
-import Spinner from '../spinner/Spinner';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 const ComicsList = () => {
 	const [comics, setComics] = useState([]);
 	const [offset, setOffset] = useState(200);
 	const [newComicsLoading, setNewComicsLoading] = useState(false);
 	const [comicsEnded, setComicsEnded] = useState(false);
-	const { loading, error, getAllComics, clearError } = useMarvelService();
+	const { getAllComics, clearError, process, setProcess } =
+		useMarvelService();
 
 	useEffect(() => {
 		onRequest(true);
@@ -19,7 +18,9 @@ const ComicsList = () => {
 
 	const onRequest = (initial) => {
 		if (!initial) setNewComicsLoading(true);
-		getAllComics(offset).then(comicsLoaded);
+		getAllComics(offset)
+			.then(comicsLoaded)
+			.then(() => setProcess('success'));
 	};
 
 	const comicsLoaded = (comics) => {
@@ -53,28 +54,15 @@ const ComicsList = () => {
 				</li>
 			);
 		});
-		return (
-			<ul className="comics__grid">
-				<TransitionGroup component={null}>
-					{items.map((elem, i) => (
-						<CSSTransition
-							key={i}
-							timeout={300}
-							classNames="comics__item">
-							{elem}
-						</CSSTransition>
-					))}
-				</TransitionGroup>
-			</ul>
-		);
+		return <ul className="comics__grid">{items}</ul>;
 	};
-	const errorMessage = error ? <ErrorMessage /> : null;
-	const spinner = loading && !newComicsLoading ? <Spinner /> : null;
+	const content = useMemo(
+		() => setContentList(process, () => renderList(), newComicsLoading),
+		[process]
+	);
 	return (
 		<div className="comics__list">
-			{spinner}
-			{errorMessage}
-			{renderList()}
+			{content}
 			<button
 				className="button button__main button__long"
 				onClick={() => onRequest(false)}

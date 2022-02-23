@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import useMarvelService from '../../../services/MarvelService';
+import setContent from '../../../utils/setContent';
 import AppBanner from '../../appBanner/AppBanner';
-import Spinner from '../../spinner/Spinner';
-import ErrorMessage from '../../errorMessage/ErrorMessage';
 
 import './singleChar.scss';
 import { Helmet } from 'react-helmet';
@@ -11,49 +10,44 @@ import { Helmet } from 'react-helmet';
 const SingleCharPage = () => {
 	const [char, setChar] = useState(null);
 	const { id } = useParams();
-	const { loading, error, getCharacterById } = useMarvelService();
+	const { getCharacterById, process, setProcess } = useMarvelService();
 
 	useEffect(() => {
-		getCharacterById(id).then(setChar);
+		getCharacterById(id)
+			.then(setChar)
+			.then(() => setProcess('success'));
 	}, [id]);
-	const spinner = loading ? <Spinner /> : null;
-	const errorMessage = error ? <ErrorMessage /> : null;
-	const content = char && !(loading || error) ? <View char={char} /> : null;
+	const content = setContent(process, View, char);
 	return (
 		<>
 			<AppBanner />
-			{spinner}
-			{errorMessage}
 			{content}
 		</>
 	);
 };
 
-const View = ({ char }) => {
+const View = ({ data }) => {
+	const { name, thumbnail, homepage, wiki, description } = data;
 	return (
 		<div className="single-char">
 			<Helmet>
-				<meta name="description" content={`${char.name} page`} />
-				<title>{char.name}</title>
+				<meta name="description" content={`${name} page`} />
+				<title>{name}</title>
 			</Helmet>
 			<div>
-				<img src={char.thumbnail} alt={char.name} />
+				<img src={thumbnail} alt={name} />
 				<div className="single-char__btns">
-					<a href={char.homepage} className="button button__main">
+					<a href={homepage} className="button button__main">
 						<div className="inner">homepage</div>
 					</a>
-					<a href={char.wiki} className="button button__secondary">
+					<a href={wiki} className="button button__secondary">
 						<div className="inner">Wiki</div>
 					</a>
 				</div>
 			</div>
 			<div className="single-char__info">
-				<h2>{char.name}</h2>
-				<p>
-					{char.description
-						? char.description
-						: 'DESCRIPTION NOT FOUND'}
-				</p>
+				<h2>{name}</h2>
+				<p>{description ? description : 'DESCRIPTION NOT FOUND'}</p>
 			</div>
 			<Link to="/" className="single-char__back">
 				Back to all
